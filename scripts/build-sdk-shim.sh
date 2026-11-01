@@ -5,6 +5,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SDK_JAR="${1:?usage: $0 <stock-sdk.jar> [module-dir]}"
 MODULE="${2:-$ROOT/module}"
+ADAPTER_JAR="${ADAPTER_JAR:-$(dirname "$SDK_JAR")/com.oplus.camera.unit.sdk.adapter.jar}"
 APKTOOL="${APKTOOL:-apktool}"
 WORK="${WORK:-$ROOT/build/sdk-work}"
 
@@ -30,5 +31,15 @@ cp "$WORK/com.oplus.camera.unit.sdk.jar" "$MODULE/system/framework/com.oplus.cam
 cp "$WORK/com.oplus.camera.unit.sdk.jar" "$MODULE/system/framework/com.oplus.camera.unit.sdk.cam2.jar"
 cp "$WORK/com.oplus.camera.unit.sdk.jar" "$MODULE/product/framework/com.oplus.camera.unit.sdk.jar"
 cp "$WORK/com.oplus.camera.unit.sdk.jar" "$MODULE/product/framework/com.oplus.camera.unit.sdk.cam2.jar"
+
+# The adapter jar is stock and unchanged; copy it beside the shim if available.
+if [ -f "$ADAPTER_JAR" ]; then
+  cp "$ADAPTER_JAR" "$MODULE/system/framework/com.oplus.camera.unit.sdk.adapter.jar"
+  cp "$ADAPTER_JAR" "$MODULE/product/framework/com.oplus.camera.unit.sdk.adapter.jar"
+  echo "copied adapter: $ADAPTER_JAR"
+else
+  echo "warning: adapter jar not found at $ADAPTER_JAR; copy it manually"
+fi
+
 echo "built: $WORK/com.oplus.camera.unit.sdk.jar"
 echo "module: $MODULE"

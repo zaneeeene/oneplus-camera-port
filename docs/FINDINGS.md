@@ -10,15 +10,16 @@
 
 ## OCS SDK
 
-The port ships:
+The port physically ships these in its product overlay:
 ```
-/product/framework/com.oplus.camera.unit.sdk.jar
-/product/framework/com.oplus.camera.unit.sdk.adapter.jar
-/product/etc/permissions/com.oplus.camera.unit.sdk_product.xml
+/my_product/product_overlay/framework/com.oplus.camera.unit.sdk.jar
+/my_product/product_overlay/framework/com.oplus.camera.unit.sdk.adapter.jar
+/my_product/product_overlay/etc/permissions/com.oplus.camera.unit.sdk_product.xml
 ```
-The library XML initially points at `/product/framework`; the module adds an active
-`/system/etc/permissions` XML and overlays both `/system/framework` and
-`/product/framework` copies.
+The stock XML points the library name at `/product/framework/...`; that path is not
+always active on a ported ROM. The module therefore adds an active
+`/system/etc/permissions` XML and installs the shim at `/system/framework` (plus an
+optional `/product/framework` fallback).
 
 ## Why the stock app does not start the camera
 

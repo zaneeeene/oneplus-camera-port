@@ -14,9 +14,14 @@ included. You must supply your own APK/ROM files.
 
 ## What was done
 
-1. Extracted the OCS shared library from the port:
-   - `/product/framework/com.oplus.camera.unit.sdk.jar`
-   - `/product/framework/com.oplus.camera.unit.sdk.adapter.jar`
+1. Extracted the OCS shared library from the port's product overlay:
+   - `/my_product/product_overlay/framework/com.oplus.camera.unit.sdk.jar`
+   - `/my_product/product_overlay/framework/com.oplus.camera.unit.sdk.adapter.jar`
+
+   The stock permission XML in that overlay points the shared library at
+   `/product/framework/...`. That path is not reliably active on every port, so the
+   module instead registers its own `/system/etc/permissions` XML and installs the shim
+   under `/system/framework` (with an optional `/product/framework` fallback).
 2. Replaced `com.oplus.ocs.camera.CameraUnitImpl` with a Camera2 implementation:
    - `CameraUnitImpl` implements `CameraUnitInterface`
    - `OcsCamera2Device` implements `CameraDeviceInterface`

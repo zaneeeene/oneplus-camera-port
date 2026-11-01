@@ -42,7 +42,8 @@ ecj -cp "$APKTOOL" -d build/asm scripts/AssembleSmali.java
 
 ## 1. Build the Camera2 OCS shim
 
-Input: your device's `/product/framework/com.oplus.camera.unit.sdk.jar`.
+Input: your device's `/my_product/product_overlay/framework/com.oplus.camera.unit.sdk.jar`
+(the stock XML may refer to it as `/product/framework/...`).
 
 ```sh
 scripts/build-sdk-shim.sh path/to/com.oplus.camera.unit.sdk.jar module
@@ -53,9 +54,14 @@ The script:
 2. replaces `CameraUnitImpl` with `shim/smali/...`
 3. builds a new jar at `build/sdk/com.oplus.camera.unit.sdk.jar`
 
-The module template expects this file at both:
+The script also copies the stock (unchanged) adapter jar if it sits beside the SDK jar:
+- `/my_product/product_overlay/framework/com.oplus.camera.unit.sdk.adapter.jar`
+
+The module template expects these files at both:
 - `module/system/framework/com.oplus.camera.unit.sdk.jar`
 - `module/product/framework/com.oplus.camera.unit.sdk.jar`
+- `module/system/framework/com.oplus.camera.unit.sdk.adapter.jar`
+- `module/product/framework/com.oplus.camera.unit.sdk.adapter.jar`
 
 The build script places it there. See `module/system/etc/permissions/com.oplus.camera.unit.sdk.xml`
 and `module/product/etc/permissions/com.oplus.camera.unit.sdk_product.xml`.
