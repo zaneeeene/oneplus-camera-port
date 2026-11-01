@@ -1,0 +1,6 @@
+id=oplus_camera_sdk
+name=Oplus Camera SDK (tapas ColorOS port)
+version=18.4-cam2
+versionCode=184
+author=opencode
+description=Camera2 shim v18.4: restores OCS CameraConfigHelper/AlgoSwitchConfig initialization.
