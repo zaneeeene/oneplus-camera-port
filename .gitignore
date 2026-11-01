@@ -8,3 +8,5 @@ module/system/framework/*.jar
 module/product/framework/*.jar
 module/system/lib64/
 module/product/lib64/
+
+apk/
